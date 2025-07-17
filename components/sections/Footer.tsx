@@ -6,9 +6,8 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <Building className="h-8 w-8 text-blue-500" />
-              <span className="text-xl font-bold">Big Roof Finder</span>
+            <div className="mb-4">
+              <img src="/images/logo.png" alt="Big Roof Finder Logo" className="w-full max-w-[1000px] mx-auto" />
             </div>
             <p className="text-gray-400 leading-relaxed">
               Advanced GIS technology for identifying and analyzing large commercial roofs. 
@@ -20,18 +19,12 @@ export function Footer() {
             <h3 className="text-lg font-semibold mb-4">Product</h3>
             <ul className="space-y-2 text-gray-400">
               <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">API</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-lg font-semibold mb-4">Company</h3>
             <ul className="space-y-2 text-gray-400">
-              <li><a href="#" className="hover:text-white transition-colors">About</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">Careers</a></li>
               <li><a href="#contact" className="hover:text-white transition-colors">Contact</a></li>
             </ul>
           </div>
@@ -60,17 +53,6 @@ export function Footer() {
             <p className="text-gray-400 text-sm">
               © 2025 Big Roof Finder. All rights reserved.
             </p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Terms of Service
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors">
-                Cookie Policy
-              </a>
-            </div>
           </div>
         </div>
       </div>
