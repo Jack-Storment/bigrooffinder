@@ -3,13 +3,31 @@
 import { Button } from '@/components/ui/button';
 import { MapPin, Zap, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
+import { subscribeEmail } from '@/lib/supabase';
+import { useToast } from '@/hooks/use-toast';
 
 export function Hero() {
   const [email, setEmail] = useState('');
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Email submitted:', email);
+    setLoading(true);
+    try {
+      await subscribeEmail(email);
+      await fetch('/api/send-welcome-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      toast({ title: 'Success!', description: 'You have been subscribed for early access.' });
+      setEmail('');
+    } catch (error: any) {
+      toast({ title: 'Error', description: error.message || 'Failed to subscribe.', variant: 'destructive' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

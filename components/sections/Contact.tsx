@@ -6,6 +6,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { useState } from 'react';
+import { submitContactForm } from '@/lib/supabase';
+import { useToast } from '@/hooks/use-toast';
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -14,11 +16,26 @@ export function Contact() {
     company: '',
     message: ''
   });
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setFormData({ name: '', email: '', company: '', message: '' });
+    setLoading(true);
+    try {
+      await submitContactForm(formData);
+      await fetch('/api/send-contact-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      toast({ title: 'Message sent!', description: 'We will get back to you soon.' });
+      setFormData({ name: '', email: '', company: '', message: '' });
+    } catch (error: any) {
+      toast({ title: 'Error', description: error.message || 'Failed to send message.', variant: 'destructive' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -85,8 +102,8 @@ export function Contact() {
                     onChange={handleChange}
                     required
                   />
-                  <Button type="submit" size="lg" className="w-full bg-blue-600 hover:bg-blue-700">
-                    Send Message
+                  <Button type="submit" size="lg" className="w-full bg-blue-600 hover:bg-blue-700" disabled={loading}>
+                    {loading ? 'Sending...' : 'Send Message'}
                   </Button>
                 </form>
               </CardContent>
@@ -137,9 +154,16 @@ export function Contact() {
                 <p className="text-gray-600 mb-4">
                   See Big Roof Finder in action with a personalized demo tailored to your business needs.
                 </p>
-                <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                  Book Demo Call
-                </Button>
+                <a
+                  href="https://calendly.com/reagan-bigrooffinder/30min"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full inline-block"
+                >
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700">
+                    Book Demo Call
+                  </Button>
+                </a>
               </CardContent>
             </Card>
           </div>
