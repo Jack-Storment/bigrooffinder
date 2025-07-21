@@ -1,15 +1,19 @@
-import { NextRequest, NextResponse } from 'next/server';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
-export async function POST(req: NextRequest) {
-  const { name, email, company, message } = await req.json();
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  const { name, email, company, message } = req.body;
 
   if (!name || !email || !message) {
-    return NextResponse.json({ error: 'Name, email, and message are required.' }, { status: 400 });
+    return res.status(400).json({ error: 'Name, email, and message are required.' });
   }
 
   const apiKey = process.env.RESEND_API_KEY;
   if (!apiKey) {
-    return NextResponse.json({ error: 'Resend API key not set' }, { status: 500 });
+    return res.status(500).json({ error: 'Resend API key not set' });
   }
 
   const response = await fetch('https://api.resend.com/emails', {
@@ -34,8 +38,8 @@ export async function POST(req: NextRequest) {
 
   if (!response.ok) {
     const error = await response.json();
-    return NextResponse.json({ error: error.message || 'Failed to send email' }, { status: 500 });
+    return res.status(500).json({ error: error.message || 'Failed to send email' });
   }
 
-  return NextResponse.json({ success: true });
+  return res.status(200).json({ success: true });
 }
