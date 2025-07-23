@@ -19,7 +19,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      service_id: 'service_ttxgrs4',
+      service_id: 'service_aamm0lj',
       template_id: 'template_a52k5pj',
       user_id: 'jB8RtYGb36FkQu3se',
       template_params: {

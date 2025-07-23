@@ -26,7 +26,7 @@ export function Contact() {
     try {
       await submitContactForm(formData); 
       await emailjs.send(
-        'service_ttxgrs4',
+        'service_aamm0lj',
         'template_a52k5pj',
         {
           name: formData.name,

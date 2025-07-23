@@ -17,7 +17,7 @@ export function Hero() {
     setLoading(true);
     try {
       await emailjs.send(
-        'service_ttxgrs4',
+        'service_aamm0lj',
         'template_a52k5pj',
         { email },
         'jB8RtYGb36FkQu3se'
