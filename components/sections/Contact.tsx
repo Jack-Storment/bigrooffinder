@@ -8,6 +8,7 @@ import { Mail, Phone, MapPin } from 'lucide-react';
 import { useState } from 'react';
 import { submitContactForm } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
+import emailjs from '@emailjs/browser';
 
 export function Contact() {
   const [formData, setFormData] = useState({
@@ -23,12 +24,18 @@ export function Contact() {
     e.preventDefault();
     setLoading(true);
     try {
-      await submitContactForm(formData);
-      await fetch('/api/send-contact-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      await submitContactForm(formData); 
+      await emailjs.send(
+        'service_ttxgrs4',
+        'template_a52k5pj',
+        {
+          name: formData.name,
+          email: formData.email,
+          company: formData.company,
+          message: formData.message,
+        },
+        'jB8RtYGb36FkQu3se'
+      );
       toast({ title: 'Message sent!', description: 'We will get back to you soon.' });
       setFormData({ name: '', email: '', company: '', message: '' });
     } catch (error: any) {

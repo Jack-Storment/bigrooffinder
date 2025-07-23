@@ -5,6 +5,7 @@ import { MapPin, Zap, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
 import { subscribeEmail } from '@/lib/supabase';
 import { useToast } from '@/hooks/use-toast';
+import emailjs from '@emailjs/browser';
 
 export function Hero() {
   const [email, setEmail] = useState('');
@@ -15,12 +16,12 @@ export function Hero() {
     e.preventDefault();
     setLoading(true);
     try {
-      await subscribeEmail(email);
-      await fetch('/api/send-welcome-email', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
+      await emailjs.send(
+        'service_ttxgrs4',
+        'template_a52k5pj',
+        { email },
+        'jB8RtYGb36FkQu3se'
+      );
       toast({ title: 'Success!', description: 'You have been subscribed for early access.' });
       setEmail('');
     } catch (error: any) {

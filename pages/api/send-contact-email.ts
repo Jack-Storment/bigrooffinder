@@ -11,28 +11,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     return res.status(400).json({ error: 'Name, email, and message are required.' });
   }
 
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    return res.status(500).json({ error: 'Resend API key not set' });
-  }
+  const EMAILJS_URL = 'https://api.emailjs.com/api/v1.0/email/send';
 
-  const response = await fetch('https://api.resend.com/emails', {
+  const response = await fetch(EMAILJS_URL, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      from: 'Big Roof Finder <noreply@bigrooffinder.com>',
-      to: email,
-      subject: 'Thank you for contacting Big Roof Finder!',
-      html: `
-        <h2>Thank you for getting in touch, ${name}!</h2>
-        <p>We have received your message and will get back to you soon.</p>
-        <hr/>
-        <p><strong>Your message:</strong><br/>${message}</p>
-        <p><strong>Company:</strong> ${company || 'N/A'}</p>
-      `
+      service_id: 'service_ttxgrs4',
+      template_id: 'template_a52k5pj',
+      user_id: 'jB8RtYGb36FkQu3se',
+      template_params: {
+        name,
+        email,
+        company,
+        message,
+      },
     }),
   });
 
