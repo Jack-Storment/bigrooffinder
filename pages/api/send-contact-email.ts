@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     },
     body: JSON.stringify({
       service_id: 'service_aamm0lj',
-      template_id: 'template_a52k5pj',
+      template_id: 'template_ccitcqe',
       user_id: 'jB8RtYGb36FkQu3se',
       template_params: {
         name,
